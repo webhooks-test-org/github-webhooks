@@ -29,7 +29,7 @@ public class WebHookApplication {
 
     @RequestMapping(name = "/webhook-client", method = RequestMethod.POST)
     @ResponseBody
-    ResponseEntity<String> handle(@RequestHeader("X-Hub-Signature") String signature, @RequestBody String body) {
+    ResponseEntity<String> handleRequest(@RequestHeader("X-Hub-Signature") String signature, @RequestBody String body) {
 
         // Check if the message is correctly signed
         String messageSha = "sha1=" + HmacUtils.hmacSha1Hex(SECRET, body);
