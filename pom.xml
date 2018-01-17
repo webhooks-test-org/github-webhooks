@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+  <parent>
+    <groupId>org.springframework.boot</groupId>
+    <artifactId>spring-boot-starter-parent</artifactId>
+    <version>1.5.9.RELEASE</version>
+  </parent>
+  <groupId>com.alvarolobato</groupId>
+  <artifactId>github-webhooks</artifactId>
+  <version>1.0-SNAPSHOT</version>
+  <packaging>jar</packaging>
+
+  <properties>
+  </properties>
+
+  <name>GitHub Webhooks and API test</name>
+  <description>
+    A demostrantion of how GitHub Webhooks and API can be used to track repository deletions in GitHub organizations and creating issues in repositories.
+  </description>
+
+  <licenses>
+    <license>
+      <name>MIT License</name>
+      <url>https://opensource.org/licenses/MIT</url>
+    </license>
+  </licenses>
+
+  <scm>
+    <connection>scm:git:git://github.com/webhooks-test-org/github-webhooks.git</connection>
+    <developerConnection>scm:git:git@github.com:webhooks-test-org/github-webhooks.git</developerConnection>
+    <url>https://github.com/webhooks-test-org/github-webhooks</url>
+  </scm>
+
+  <dependencies>
+    <dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter-web</artifactId>
+    </dependency>
+  </dependencies>
+
+</project>
+
+
+
