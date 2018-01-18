@@ -29,7 +29,7 @@ public class WebHookApplication {
 
     protected final Logger logger = LoggerFactory.getLogger(WebHookApplication.class.getName());
 
-    @Value("secret")
+    @Value("${secret}")
     private String secret;
 
     @Autowired
