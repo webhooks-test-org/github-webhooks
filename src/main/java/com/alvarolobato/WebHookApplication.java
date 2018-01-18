@@ -4,12 +4,10 @@ import org.apache.commons.codec.digest.HmacUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.context.annotation.ComponentScan;
-import org.springframework.context.annotation.EnableAspectJAutoProxy;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -27,7 +25,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 @ComponentScan("com.alvarolobato")
 public class WebHookApplication {
 
-    protected final Logger logger = LoggerFactory.getLogger(WebHookApplication.class.getName());
+    private final Logger logger = LoggerFactory.getLogger(WebHookApplication.class.getName());
 
     @Value("${secret}")
     private String secret;
@@ -37,8 +35,7 @@ public class WebHookApplication {
 
     @RequestMapping(name = "/webhook-client", method = RequestMethod.POST)
     @ResponseBody
-    ResponseEntity<String> handleRequest(@RequestHeader("X-Hub-Signature") String signature, @RequestBody String body) {
-
+    ResponseEntity<String> handleRequest(@RequestHeader("X-Hub-Signature") String signature, @RequestHeader("x-github-event") String eventType, @RequestBody String body) {
         // Check if the message is correctly signed
         String messageSha = "sha1=" + HmacUtils.hmacSha1Hex(secret, body);
         if (!messageSha.equals(signature)) {
@@ -48,7 +45,7 @@ public class WebHookApplication {
             return new ResponseEntity<String>("Forbiden", HttpStatus.FORBIDDEN);
         }
 
-        handler.handleMessage(body);
+        handler.handleMessage(eventType, body);
         return new ResponseEntity<String>(HttpStatus.OK);
     }
 
