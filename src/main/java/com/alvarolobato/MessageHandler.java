@@ -1,25 +1,9 @@
 package com.alvarolobato;
 
-import java.util.Map;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.boot.json.JsonParserFactory;
-import org.springframework.stereotype.Component;
-
 /**
- * Processes Webhook events, creating an issue when a repository is deleted. The rest of the events are ignored
- *
+ * Responsible for processing messages, will return true if the message was processed.
  */
-@Component
-public class MessageHandler {
-
-    protected final Logger logger = LoggerFactory.getLogger(MessageHandler.class.getName());
-
-    String ACTION_KEY = "action";
-    String DELETION_ACTION_NAME = "deleted";
-    String REPOSITORY_KEY = "repository";
-    String REPOSITORY_NAME_KEY = "name";
+public interface MessageHandler {
 
     /**
      * Does the actual handling of the message
@@ -27,20 +11,5 @@ public class MessageHandler {
      * @param jsonMessage to be processed
      * @return true if the message was processed, false if it was ignored.
      */
-    public boolean handleMessage(String jsonMessage) {
-        Map<String, Object> map = JsonParserFactory.getJsonParser().parseMap(jsonMessage);
-
-        // FIXME: Do proper error handling and a better json parsing
-        Object receivedAction = map.get(ACTION_KEY);
-        Object repository = ((Map) map.get(REPOSITORY_KEY)).get(REPOSITORY_NAME_KEY);
-
-        if (DELETION_ACTION_NAME.equals(receivedAction)) {
-            logger.info("Received deletion action for repository {}. Processing request");
-            // TODO create the issues
-            return true;
-        } else {
-            logger.debug("Received action {} for repository {} -> Ignored", receivedAction, repository);
-            return false;
-        }
-    }
+    boolean handleMessage(String jsonMessage);
 }

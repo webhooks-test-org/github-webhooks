@@ -9,17 +9,16 @@ import java.io.IOException;
 import org.junit.Test;
 
 public class MassageHandlerTests {
-
     @Test
     public void hanldeDeletionMessageTest() throws IOException {
-        MessageHandler handler = new MessageHandler();
+        MessageHandler handler = new MessageHandlerImpl();
         boolean processed = handler.handleMessage(loadFromFile("repo2-deletion-event.json"));
         assertTrue("Messages should have been processed", processed);
     }
 
     @Test
     public void ignoreCreationEventTest() throws IOException {
-        MessageHandler handler = new MessageHandler();
+        MessageHandler handler = new MessageHandlerImpl();
         boolean processed = handler.handleMessage(loadFromFile("repo4-creation-event.json"));
         assertFalse("Message shouldn't have been processed", processed);
     }

@@ -12,9 +12,11 @@ import org.springframework.http.ResponseEntity;
 
 public class WebHookApplicationUnitTests {
 
+    final static String TEST_SECRET = "mJ.DU2HeC2z2FYmvpY^jKktPQt";
+
     @Test
     public void validSignatureMessageAcceptedTest() throws IOException {
-        WebHookApplication app=new WebHookApplication();
+        WebHookApplication app = prepareApp();
         String signature = loadFromFile("repo2-deletion-event-sha.txt");
         ResponseEntity<String> response = app.handleRequest(signature, loadFromFile("repo2-deletion-event.json"));
         assertThat("Call should have succeded", response.getStatusCode(), equalTo(HttpStatus.OK));
@@ -22,17 +24,29 @@ public class WebHookApplicationUnitTests {
 
     @Test
     public void invalidSignatureMessageForbidenTest() throws IOException {
-        WebHookApplication app = new WebHookApplication();
+        WebHookApplication app = prepareApp();
         String signature = "randomstring";
         ResponseEntity<String> response = app.handleRequest(signature, loadFromFile("repo2-deletion-event.json"));
-        assertThat("Call should have succeded", response.getStatusCode(), equalTo(HttpStatus.OK));
+        assertThat("Call should have failed with forbiden", response.getStatusCode(), equalTo(HttpStatus.FORBIDDEN));
     }
 
     @Test
     public void nullSignatureMessageForbidenTest() throws IOException {
+        WebHookApplication app = prepareApp();
+        ResponseEntity<String> response = app.handleRequest(null, loadFromFile("repo2-deletion-event.json"));
+        assertThat("Call should have failed with forbiden", response.getStatusCode(), equalTo(HttpStatus.FORBIDDEN));
+    }
+
+    private WebHookApplication prepareApp() {
         WebHookApplication app = new WebHookApplication();
-        String signature = "randomstring";
-        ResponseEntity<String> response = app.handleRequest(signature, loadFromFile("repo2-deletion-event.json"));
-        assertThat("Call should have succeded", response.getStatusCode(), equalTo(HttpStatus.OK));
+        MessageHandler handler = new MessageHandler() {  // a dummy message handler
+            @Override
+            public boolean handleMessage(String jsonMessage) {
+                return true;
+            }
+        };
+        app.setHandler(handler);
+        app.setSecret(TEST_SECRET);
+        return app;
     }
 }
