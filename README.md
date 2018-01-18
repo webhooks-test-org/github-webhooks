@@ -52,7 +52,7 @@ After saving all should be ready to go.
 # Testing
 To test the webhooks a repository will need to be created and deleted. After the repository is deleted, check that there was created an issue in the configured repository.
 
-# Trouble Shooting
+# Troubleshooting
 The application will log when a web hook is received and processed. These situations could be found:
 - No webhook received - Go to the webhook configurations and check next to the name if there is an error, a tool tip will be visible indicating the problem
 
