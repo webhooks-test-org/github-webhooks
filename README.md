@@ -58,6 +58,6 @@ The application will log when a web hook is received and processed. These situat
 
 - The issue wasn't created - Check the application logs, the most tipical case are wrong credentials and/or unexistent repository
 
-External resources used:
+# External resources used:
 - Spring boot documentation
 - Git Hub API docs
