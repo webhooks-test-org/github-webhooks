@@ -38,7 +38,7 @@ After the application is configured, it can be run by executing the following co
 
 `java -jar target/github-webhooks-1.0-SNAPSHOT.jar`
 
-# Setting up web hooks
+# Setting up webhooks
 
 To configure web hooks follow the instructions in the link bellow using the following information:
 https://developer.github.com/webhooks/creating/
