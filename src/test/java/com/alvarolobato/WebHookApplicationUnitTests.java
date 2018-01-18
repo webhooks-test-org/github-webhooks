@@ -18,7 +18,7 @@ public class WebHookApplicationUnitTests {
     public void validSignatureMessageAcceptedTest() throws IOException {
         WebHookApplication app = prepareApp();
         String signature = loadFromFile("repo2-deletion-event-sha.txt");
-        ResponseEntity<String> response = app.handleRequest(signature, loadFromFile("repo2-deletion-event.json"));
+        ResponseEntity<String> response = app.handleRequest("repository", signature, loadFromFile("repo2-deletion-event.json"));
         assertThat("Call should have succeded", response.getStatusCode(), equalTo(HttpStatus.OK));
     }
 
@@ -26,14 +26,14 @@ public class WebHookApplicationUnitTests {
     public void invalidSignatureMessageForbidenTest() throws IOException {
         WebHookApplication app = prepareApp();
         String signature = "randomstring";
-        ResponseEntity<String> response = app.handleRequest(signature, loadFromFile("repo2-deletion-event.json"));
+        ResponseEntity<String> response = app.handleRequest("repository", signature, loadFromFile("repo2-deletion-event.json"));
         assertThat("Call should have failed with forbiden", response.getStatusCode(), equalTo(HttpStatus.FORBIDDEN));
     }
 
     @Test
     public void nullSignatureMessageForbidenTest() throws IOException {
         WebHookApplication app = prepareApp();
-        ResponseEntity<String> response = app.handleRequest(null, loadFromFile("repo2-deletion-event.json"));
+        ResponseEntity<String> response = app.handleRequest("repository", null, loadFromFile("repo2-deletion-event.json"));
         assertThat("Call should have failed with forbiden", response.getStatusCode(), equalTo(HttpStatus.FORBIDDEN));
     }
 
@@ -41,7 +41,7 @@ public class WebHookApplicationUnitTests {
         WebHookApplication app = new WebHookApplication();
         MessageHandler handler = new MessageHandler() {  // a dummy message handler
             @Override
-            public boolean handleMessage(String jsonMessage) {
+            public boolean handleMessage(String eventType, String jsonMessage) {
                 return true;
             }
         };
