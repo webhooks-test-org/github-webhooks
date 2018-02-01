@@ -18,23 +18,22 @@ public class MessageHandlerImpl implements MessageHandler {
 
     protected final Logger logger = LoggerFactory.getLogger(MessageHandlerImpl.class.getName());
 
-    String REPOSITORY_EVENT_TYPE = "repository";
-
-    String ACTION_KEY = "action";
-    String DELETION_ACTION_NAME = "deleted";
-    String REPOSITORY_KEY = "repository";
-    String REPOSITORY_NAME_KEY = "name";
-    String OWNER_KEY = "owner";
-    String OWNER_LOGIN_KEY = "login";
+    private final static String REPOSITORY_EVENT_TYPE = "repository";
+    private final static String ACTION_KEY = "action";
+    private final static String DELETION_ACTION_NAME = "deleted";
+    private final static String REPOSITORY_KEY = "repository";
+    private final static String REPOSITORY_NAME_KEY = "name";
+    private final static String OWNER_KEY = "owner";
+    private final static String OWNER_LOGIN_KEY = "login";
 
     @Value("${issue.mention}")
-    String mention;
+    private String mention;
 
     @Value("${issue.repository}")
-    String issueRepository;
+    private String issueRepository;
 
     @Autowired
-    IssueCreator issueCreator;
+    private IssueCreator issueCreator;
 
     /* (non-Javadoc)
      * @see com.alvarolobato.MessageHandler#handleMessage(java.lang.String)
